@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
+import SignIn from '@/views/Signin.vue'
+import { store } from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -9,12 +11,47 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/folder/:id',
     component: () => import ('../views/FolderPage.vue')
-  }
+  },
+  {
+    path: '/signin',
+    component: SignIn,
+  },
+
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
+  linkActiveClass: "active",
+  linkExactActiveClass: "exact-active",
   routes
 })
+
+/*
+router.beforeEach((to, from, next) => {
+  const isPublic = to.matched.some(record => record.meta.public);
+  const onlyWhenLoggedOut = to.matched.some(
+    record => record.meta.onlyWhenLoggedOut
+  )
+
+  store.dispatch('auth/getCurrentUser')
+    .then(() => {
+      console.log('Logged In');
+      if (onlyWhenLoggedOut) {
+        return next("/");
+      }
+
+      return next();
+    })
+    .catch(() => {
+      if (!isPublic) {
+        console.log('logged Out')
+        return next('/');
+      }
+
+      console.log('logged Out');
+      return next();
+    })
+})
+*/
 
 export default router
