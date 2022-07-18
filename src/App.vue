@@ -4,6 +4,14 @@
       <ion-menu content-id="main-content" type="overlay">
         <ion-content>
           <ion-list id="inbox-list">
+            <ion-item @click="signOut">
+              <ion-icon
+                slot="start"
+                :ios="exitOutline"
+                :md="exitOutline">
+              </ion-icon>
+              <ion-label>Sign Out</ion-label>
+            </ion-item>
             <ion-list-header>Inbox</ion-list-header>
             <ion-note>hi@ionicframework.com</ion-note>
   
@@ -32,9 +40,10 @@
 
 <script lang="ts">
 import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
-import { defineComponent, ref } from 'vue';
+import { defineComponent, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { useStore } from "vuex";
 
 export default defineComponent({
   name: 'App',
@@ -100,6 +109,8 @@ export default defineComponent({
     }
     
     const route = useRoute();
+
+    const store = useStore();
     
     return { 
       selectedIndex,
@@ -119,7 +130,10 @@ export default defineComponent({
       trashSharp, 
       warningOutline, 
       warningSharp,
-      isSelected: (url: string) => url === route.path ? 'selected' : ''
+      isSelected: (url: string) => url === route.path ? 'selected' : '',
+
+      currentUser: computed(() => store.state.auth.user),
+      signOut: async () => store.dispatch('auth/signOut')
     }
   }
 });

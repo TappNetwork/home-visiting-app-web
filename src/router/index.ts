@@ -6,15 +6,27 @@ import { store } from '@/store';
 const routes: Array<RouteRecordRaw> = [
   {
     path: '',
-    redirect: '/folder/Inbox'
+    redirect: '/folder/Inbox',
+    meta: {
+      public: false,
+      onlyWhenLoggedOut: false
+    }
   },
   {
     path: '/folder/:id',
-    component: () => import ('../views/FolderPage.vue')
+    component: () => import ('../views/FolderPage.vue'),
+    meta: {
+      public: false, 
+      onlyWhenLoggedOut: false
+    }
   },
   {
     path: '/signin',
     component: SignIn,
+    meta: {
+      public: true,
+      onlyWhenLoggedOut: true
+    }
   },
 
 ]
@@ -26,7 +38,6 @@ const router = createRouter({
   routes
 })
 
-/*
 router.beforeEach((to, from, next) => {
   const isPublic = to.matched.some(record => record.meta.public);
   const onlyWhenLoggedOut = to.matched.some(
@@ -45,13 +56,12 @@ router.beforeEach((to, from, next) => {
     .catch(() => {
       if (!isPublic) {
         console.log('logged Out')
-        return next('/');
+        return next('/signin');
       }
 
       console.log('logged Out');
       return next();
     })
 })
-*/
 
 export default router

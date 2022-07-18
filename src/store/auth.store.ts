@@ -102,7 +102,7 @@ const actions = {
                 context.commit("signInSuccess", res);
                 resolve(res);
                 // TODO handle intended redirect
-                router.push("/dashboard");
+                router.push("/");
             }).catch(err => {
                 if (err instanceof ResponseError) {
                     context.commit("signInError", {
@@ -121,7 +121,7 @@ const actions = {
         return new Promise<void>((resolve) => {
             context.commit("setUser", false);
             AuthService.signOut()
-            router.push("/login");
+            router.push("/signin");
             resolve();
         });
     },
