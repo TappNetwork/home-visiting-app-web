@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
+  appId: 'de.dhss.home-visiting',
   appName: 'home-visting-app-web',
   webDir: 'dist',
   bundledWebRuntime: false
