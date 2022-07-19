@@ -1,28 +1,82 @@
 import { createRouter, createWebHistory } from '@ionic/vue-router';
 import { RouteRecordRaw } from 'vue-router';
-import SignIn from '@/views/Signin.vue'
+import SignInPage from '@/views/Signin.vue';
+import FormsPage from '@/views/Forms.vue';
+import HomeVisitorDirectoryPage from '@/views/HomeVisitorDirectory.vue';
+import ProfilePage from '@/views/Profile.vue';
+import ReferralsPage from '@/views/Referrals.vue';
+import ResourceCenterPage from '@/views/ResourceCenter.vue';
+import DashboardPage from '@/views/Dashboard.vue'
 import { store } from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
   {
-    path: '',
-    redirect: '/folder/Inbox',
+    path: '/',
+    component: DashboardPage,
     meta: {
       public: false,
-      onlyWhenLoggedOut: false
+      onlywhenLoggedOut: false,
     }
   },
   {
-    path: '/folder/:id',
-    component: () => import ('../views/FolderPage.vue'),
+    path: '/forms',
+    component: FormsPage,
     meta: {
-      public: false, 
-      onlyWhenLoggedOut: false
+      public: false,
+      onlywhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/homevisitordirectory',
+    component: HomeVisitorDirectoryPage,
+    meta: {
+      public: false,
+      onlywhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/profile',
+    component: ProfilePage,
+    meta: {
+      public: false,
+      onlywhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/resourcecenter',
+    component: ResourceCenterPage,
+    meta: {
+      public: false,
+      onlywhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/referrals',
+    component: ReferralsPage,
+    meta: {
+      public: false,
+      onlywhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/forms',
+    component: FormsPage,
+    meta: {
+      public: false,
+      onlywhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/forms',
+    component: FormsPage,
+    meta: {
+      public: false,
+      onlywhenLoggedOut: false,
     }
   },
   {
     path: '/signin',
-    component: SignIn,
+    component: SignInPage,
     meta: {
       public: true,
       onlyWhenLoggedOut: true

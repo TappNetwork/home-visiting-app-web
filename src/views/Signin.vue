@@ -42,7 +42,7 @@
     import { useRouter } from 'vue-router';
 
     export default {
-        name: 'SignIn',
+        name: 'SignInPage',
         components: { IonPage, IonCard, IonItem, IonLabel, IonButton, IonInput, IonIcon },
 
         setup() {
