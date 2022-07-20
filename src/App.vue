@@ -4,16 +4,8 @@
       <ion-menu content-id="main-content" type="overlay">
         <ion-content>
           <ion-list id="inbox-list">
-            <ion-item @click="signOut">
-              <ion-icon
-                slot="start"
-                :ios="exitOutline"
-                :md="exitOutline">
-              </ion-icon>
-              <ion-label>Sign Out</ion-label>
-            </ion-item>
-            <ion-list-header>Inbox</ion-list-header>
-            <ion-note>hi@ionicframework.com</ion-note>
+            <ion-list-header>DEHSS Home Visiting App</ion-list-header>
+            <ion-note v-if="store.state.auth.user">Welcome {{ store.state.auth.user.name }}</ion-note>
   
             <ion-menu-toggle auto-hide="false" v-for="(p, i) in appPages" :key="i">
               <ion-item @click="selectedIndex = i" router-direction="root" :router-link="p.url" lines="none" detail="false" class="hydrated" :class="{ selected: selectedIndex === i }">
@@ -21,6 +13,16 @@
                 <ion-label>{{ p.title }}</ion-label>
               </ion-item>
             </ion-menu-toggle>
+
+            <ion-item v-if="store.state.auth.user" @click="signOut">
+              <ion-icon
+                slot="start"
+                :icon="exitOutline"
+                :ios="exitOutline"
+                :md="exitOutline">
+              </ion-icon>
+              <ion-label>Sign Out</ion-label>
+            </ion-item>
           </ion-list>
   
         </ion-content>
@@ -34,8 +36,9 @@
 import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
 import { defineComponent, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp } from 'ionicons/icons';
+import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp, accessibility, exitOutline } from 'ionicons/icons';
 import { useStore } from "vuex";
+import { store } from '@/store'
 
 export default defineComponent({
   name: 'App',
@@ -55,7 +58,18 @@ export default defineComponent({
   },
   setup() {
     const selectedIndex = ref(0);
+
+    // const store = useStore();
+
+    const loggedIn = ref(store.state.auth.user);
+
     const appPages = [
+      {
+        title: 'Dashboard',
+        url: '/',
+        iosIcon: accessibility,
+        mdIcon: accessibility
+      },
       {
         title: 'Forms',
         url: '/forms',
@@ -95,7 +109,6 @@ export default defineComponent({
     
     const route = useRoute();
 
-    const store = useStore();
     
     return { 
       selectedIndex,
@@ -114,6 +127,8 @@ export default defineComponent({
       trashSharp, 
       warningOutline, 
       warningSharp,
+      exitOutline,
+      store,
       isSelected: (url: string) => url === route.path ? 'selected' : '',
 
       currentUser: computed(() => store.state.auth.user),
