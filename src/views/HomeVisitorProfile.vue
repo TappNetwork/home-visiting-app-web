@@ -9,8 +9,8 @@
         </ion-header>
         <ion-content>
             <ion-grid>
-                <ion-row>
-                    <ion-col>
+                <ion-row class="ion-align-items-center">
+                    <ion-col size="12" size-lg="4">
                         <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZXxlbnwwfHwwfHw%3D&w=1000&q=80" 
                              style="height:400px"
                              alt="">
@@ -18,16 +18,16 @@
                         <p>Program: {{ visitor.program }}</p>
                         <p>Supervisor: {{ visitor.supervisor }}</p>
                     </ion-col>
-                    <ion-col>
+                    <ion-col size="12" size-lg="4">
                         <H1>Bio</H1>
                         <p>{{ visitor.bio }}</p>
                     </ion-col>
-                    <ion-col>
-                    </ion-col>
+                    <ion-col size="0" size-lg="4"></ion-col>
                 </ion-row>
                 <ion-row>
-                    <ion-col size="4">
-                        <ion-card size="4">
+                    <ion-col size="0" size-xl="2"></ion-col>
+                    <ion-col size="3" size-xl="2">
+                        <ion-card>
                             <ion-card-header>
                                 <ion-card-title>
                                     Locations Served
@@ -42,7 +42,7 @@
                             </ion-card-content> 
                         </ion-card>
                     </ion-col>
-                    <ion-col size="4">
+                    <ion-col size="3" size-xl="2">
                         <ion-card>
                             <ion-card-header>
                                 <ion-card-title>
@@ -58,7 +58,7 @@
                             </ion-card-content> 
                         </ion-card>
                     </ion-col>
-                    <ion-col size="4">
+                    <ion-col size="3" size-xl="2">
                         <ion-card>
                             <ion-card-header>
                                 <ion-card-title>
@@ -74,10 +74,11 @@
                             </ion-card-content> 
                         </ion-card>
                     </ion-col>
-                    <ion-col></ion-col>
+                    <ion-col size="0" size-xl="4"></ion-col>
                 </ion-row>
                 <ion-row>
-                    <ion-col size="4">
+                    <ion-col size="0" size-xl="2"></ion-col>
+                    <ion-col size="3" size-xl="2">
                         <ion-card>
                             <ion-card-header>
                                 <ion-card-title>
@@ -93,7 +94,7 @@
                             </ion-card-content> 
                         </ion-card>
                     </ion-col>
-                    <ion-col size="4">
+                    <ion-col size="3" size-xl="2">
                         <ion-card>
                             <ion-card-header>
                                 <ion-card-title>
@@ -109,6 +110,7 @@
                             </ion-card-content> 
                         </ion-card>
                     </ion-col>
+                    <ion-col size="0" size-xl="4"></ion-col>
                 </ion-row>
             </ion-grid>
         </ion-content>
