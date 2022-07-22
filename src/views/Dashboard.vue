@@ -14,6 +14,11 @@
             <p>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium aliquid, quibusdam fuga at molestias quis aliquam quasi deserunt maxime, qui adipisci officia inventore voluptas dolore eum veritatis fugit nam atque esse doloremque aperiam sed harum natus necessitatibus. Eius repellat culpa ad nisi voluptatum laudantium recusandae sit quisquam explicabo, labore consequuntur veritatis nihil eum similique error et distinctio dolorum, aliquam soluta laboriosam natus maiores! Voluptate explicabo tempore ullam delectus quo maiores numquam natus dicta provident aspernatur, velit perferendis perspiciatis possimus deleniti officia doloremque expedita a libero esse asperiores iusto laborum. Dolorum dolor est qui, commodi debitis architecto saepe harum incidunt iusto perferendis iure dignissimos, rem quod nam optio, fugit ipsam corporis voluptatibus in. Sed vel quasi id maiores quam sint nam.
             </p>
+            <br>
+            <h1>
+                Notifications
+            </h1>
+            <br>
             <div v-for="notification in notifications" :key="notification.title">
                 <ion-card>
                     <ion-card-header>
@@ -21,7 +26,12 @@
                             {{ notification.title }}
                         </ion-card-title>
                         <ion-card-subtitle>
-                            {{ notification.date }}
+                                <p v-if="notification.urgent" class="urgent">
+                                    Urgent! {{ notification.date }}
+                                </p>
+                                <p v-else>
+                                    {{ notification.date }}
+                                </p>
                         </ion-card-subtitle>
                     </ion-card-header>
                     <ion-card-content>
@@ -62,8 +72,6 @@
             const store = useStore();
 
             store.dispatch('notifications/fetchNotifications');
-
-            console.log(store.state.notifications.notifications)
 
             return {
                 notifications: computed(() => {
