@@ -6,7 +6,8 @@ import HomeVisitorDirectoryPage from '@/views/HomeVisitorDirectory.vue';
 import ProfilePage from '@/views/Profile.vue';
 import ReferralsPage from '@/views/Referrals.vue';
 import ResourceCenterPage from '@/views/ResourceCenter.vue';
-import DashboardPage from '@/views/Dashboard.vue'
+import DashboardPage from '@/views/Dashboard.vue';
+import HomeVisitorProfilePage from '@/views/HomeVisitorProfile.vue';
 import { store } from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
@@ -15,7 +16,7 @@ const routes: Array<RouteRecordRaw> = [
     component: DashboardPage,
     meta: {
       public: false,
-      onlywhenLoggedOut: false,
+      onlyWhenLoggedOut: false,
     }
   },
   {
@@ -23,7 +24,7 @@ const routes: Array<RouteRecordRaw> = [
     component: FormsPage,
     meta: {
       public: false,
-      onlywhenLoggedOut: false,
+      onlyWhenLoggedOut: false,
     }
   },
   {
@@ -31,7 +32,15 @@ const routes: Array<RouteRecordRaw> = [
     component: HomeVisitorDirectoryPage,
     meta: {
       public: false,
-      onlywhenLoggedOut: false,
+      onlyWhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/homevisitordirectory/:id',
+    component: HomeVisitorProfilePage,
+    meta: {
+      public: false,
+      onlyWhenLoggedOut: false,
     }
   },
   {
@@ -39,7 +48,7 @@ const routes: Array<RouteRecordRaw> = [
     component: ProfilePage,
     meta: {
       public: false,
-      onlywhenLoggedOut: false,
+      onlyWhenLoggedOut: false,
     }
   },
   {
@@ -47,7 +56,7 @@ const routes: Array<RouteRecordRaw> = [
     component: ResourceCenterPage,
     meta: {
       public: false,
-      onlywhenLoggedOut: false,
+      onlyWhenLoggedOut: false,
     }
   },
   {
@@ -55,7 +64,7 @@ const routes: Array<RouteRecordRaw> = [
     component: ReferralsPage,
     meta: {
       public: false,
-      onlywhenLoggedOut: false,
+      onlyWhenLoggedOut: false,
     }
   },
   {
@@ -63,15 +72,7 @@ const routes: Array<RouteRecordRaw> = [
     component: FormsPage,
     meta: {
       public: false,
-      onlywhenLoggedOut: false,
-    }
-  },
-  {
-    path: '/forms',
-    component: FormsPage,
-    meta: {
-      public: false,
-      onlywhenLoggedOut: false,
+      onlyWhenLoggedOut: false,
     }
   },
   {
