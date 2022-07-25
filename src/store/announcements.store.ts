@@ -8,12 +8,12 @@ const state = {
     responseCode: 0,
     responseMessage: 0,
     responseErrors: [],
-    notifications: null,
+    announcements: null,
 }
 
 const getters = {
-    notifications: (state: { notifications: any }) => {
-        return state.notifications;
+    announcements: (state: { announcements: any }) => {
+        return state.announcements;
     },
 
     responseCode: (state: { responseCode: any }) => {
@@ -30,8 +30,8 @@ const getters = {
 }
 
 const mutations = {
-    setNotifications(state: { notifications: any }, notifications: any) {
-        state.notifications = notifications;
+    setAnnouncements(state: { announcements: any }, notifications: any) {
+        state.announcements = notifications;
     },
 
     setLoaded() {
@@ -40,16 +40,16 @@ const mutations = {
 }
 
 const actions = {
-    async fetchNotifications(context: any) {
+    async fetchAnnouncements(context: any) {
         return new Promise((resolve, reject) => {
-            ApiService.get('api/notifications').then(function(response) {
+            ApiService.get('api/announcements').then(function(response) {
                 if (response && response.data && response.data.data) {
-                    const notifications = response.data.data;
+                    const announcements = response.data.data;
 
-                    context.commit("setNotifications", notifications);
+                    context.commit("setAnnouncements", announcements);
                     context.commit("setLoaded");
 
-                    resolve(notifications);
+                    resolve(announcements);
                 }
             })
                 .catch(error => {
@@ -59,7 +59,7 @@ const actions = {
     },
 }
 
-export const notifications = {
+export const announcements = {
     namespaced: true, 
     state,
     getters,

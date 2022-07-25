@@ -16,26 +16,26 @@
             </p>
             <br>
             <h1>
-                Notifications
+                Announcements
             </h1>
             <br>
-            <div v-for="notification in notifications" :key="notification.title">
+            <div v-for="announcement in announcements" :key="announcement.title">
                 <ion-card>
                     <ion-card-header>
                         <ion-card-title>
-                            {{ notification.title }}
+                            {{ announcement.title }}
                         </ion-card-title>
                         <ion-card-subtitle>
-                                <p v-if="notification.urgent" class="urgent">
-                                    Urgent! {{ notification.date }}
+                                <p v-if="announcement.urgent" class="urgent">
+                                    Urgent! {{ announcement.date }}
                                 </p>
                                 <p v-else>
-                                    {{ notification.date }}
+                                    {{ announcement.date }}
                                 </p>
                         </ion-card-subtitle>
                     </ion-card-header>
                     <ion-card-content>
-                        {{ notification.body }}
+                        {{ announcement.body }}
                     </ion-card-content>
                 </ion-card>
             </div>
@@ -71,11 +71,11 @@
         setup() {
             const store = useStore();
 
-            store.dispatch('notifications/fetchNotifications');
+            store.dispatch('announcements/fetchAnnouncements');
 
             return {
-                notifications: computed(() => {
-                    return store.state.notifications.notifications;
+                announcements: computed(() => {
+                    return store.state.announcements.announcements;
                 }),
             };
         }

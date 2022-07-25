@@ -1,7 +1,7 @@
 
 import { createStore } from 'vuex';
 import { auth } from "./auth.store";
-import { notifications } from "./notifications.store";
+import { announcements } from "./announcements.store";
 import { visitors } from "./visitors.store";
 
 export const store = createStore({
@@ -23,7 +23,7 @@ export const store = createStore({
 
     modules: {
         auth,
-        notifications,
+        announcements,
         visitors
     },
 })
