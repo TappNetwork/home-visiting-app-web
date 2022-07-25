@@ -60,6 +60,13 @@
                                                :value="skill">{{ skill }}</ion-select-option>
                         </ion-select>
                     </ion-row>
+                    <ion-row>
+                        <ion-item>
+                            <ion-label>Search</ion-label>
+                            <ion-input v-model="searchQuery"
+                                       placeholder="Visitor Name"></ion-input>
+                        </ion-item>
+                    </ion-row>
                 </ion-grid>
 
                 <ion-item v-for="visitor in visitors" :key="visitor.id" button @click="openVisitorProfile(visitor.id)">
@@ -87,7 +94,7 @@
 <script lang="ts">
     import { mapActions, mapGetters } from "vuex"
     import { useRouter } from 'vue-router';
-    import { IonSelectOption, IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
+    import { IonInput, IonSelectOption, IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
     import { personCircleOutline } from "ionicons/icons";
     import { useStore } from 'vuex';
     import { computed } from "@vue/reactivity";
@@ -98,6 +105,7 @@
     export default {
         name: 'HomeVisitorDirectoryPage',
         components: {
+            IonInput,
             IonSelectOption,
             IonGrid,
             IonSelect,
@@ -132,17 +140,6 @@
                     hayStack.push(needle);
                 }
             }
-/*
-            let search = new JsSearch.Search('id');
-
-            search.addIndex('name');
-
-            const allVisitors = store.state.visitors.visitors;
-
-            for (let visitor in allVisitors) {
-                search.addDocument(visitor);
-            }
-*/
 
             let countySelect = ref('');
             let agencySelect = ref('');
@@ -150,6 +147,7 @@
             let certificationSelect = ref('');
             let skillSelect = ref('');
             let languageSelect = ref('');
+            let searchQuery = ref('');
 
             const filterVisitors = () => {
                 let filteredVisitors = store.state.visitors.visitors;
@@ -161,6 +159,8 @@
 
                 filteredVisitors = stringValueFilter(filteredVisitors, 'program', agencySelect.value);
                 filteredVisitors = stringValueFilter(filteredVisitors, 'supervisor', supervisorSelect.value);
+
+                filteredVisitors =  nameSearchFilter(filteredVisitors, searchQuery.value);
 
                 return filteredVisitors;
             }
@@ -177,8 +177,15 @@
                 if (!value) return visitors;
 
                 return visitors.filter((visitor: any) => {
-                    console.log(visitor[field]+' = ' + value);
                     return visitor[field] == value;
+                });
+            }
+
+            const nameSearchFilter = (visitors: [], value: string) => {
+                if (!value) return visitors;
+
+                return visitors.filter((visitor: any) => {
+                    return visitor.name.toLowerCase().includes(value.toLowerCase());
                 });
             }
 
@@ -223,6 +230,7 @@
                 certificationSelect,
                 agencySelect,
                 supervisorSelect,
+                searchQuery,
 
                 personCircleOutline
             }
