@@ -1,6 +1,6 @@
 <template>
   <ion-page>
-    <form @submit.prevent="handleLogin">
+    <form @submit.prevent="handleLogin" @keyup.enter="handleLogin">
       <ion-card>
         <ion-item>
           <h3>Please Sign In!</h3>
