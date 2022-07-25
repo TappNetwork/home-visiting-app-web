@@ -146,7 +146,7 @@
             return {
                 visitor: computed(() => {
                     const visitors = store.state.visitors.visitors;
-                    return visitors.find(x => x.id == route.params.id )
+                    return visitors.find((x: any) => (x.id == route.params.id))
                 }),
             }
         }

@@ -11,19 +11,53 @@
             <ion-list>
                 <ion-grid>
                     <ion-row>
-                        <ion-select placeholder="County">
+                        <ion-select v-model="countySelect" placeholder="County">
+                            <ion-select-option value="">
+                                All Counties 
+                            </ion-select-option>
+                            <ion-select-option v-for="county in selectOptions.counties"
+                                               :key="county"
+                                               :value="county">{{ county }}</ion-select-option>
                         </ion-select>
-                        <ion-select placeholder="Language">
+                        <ion-select v-model="languageSelect" placeholder="Language">
+                            <ion-select-option value="">
+                                All Languages
+                            </ion-select-option>
+                            <ion-select-option v-for="language in selectOptions.languages"
+                                               :key="language"
+                                               :value="language">{{ language }}</ion-select-option>
                         </ion-select>
-                        <ion-select placeholder="Agency">
+                        <ion-select v-model="agencySelect" placeholder="Agency">
+                            <ion-select-option value="">
+                                All Agencies 
+                            </ion-select-option>
+                            <ion-select-option v-for="agency in selectOptions.agencies"
+                                               :key="agency"
+                                               :value="agency">{{ agency }}</ion-select-option>
                         </ion-select>
-                        <ion-select placeholder="Certification">
+                        <ion-select v-model="certificationSelect" placeholder="Certification">
+                            <ion-select-option value="">
+                                All Certifications 
+                            </ion-select-option>
+                            <ion-select-option v-for="certification in selectOptions.certifications"
+                                               :key="certification"
+                                               :value="certification">{{ certification }}</ion-select-option>
                         </ion-select>
-                        <ion-select placeholder="Supervisor">
+                        <ion-select v-model="supervisorSelect" placeholder="Supervisor">
+                            <ion-select-option value="">
+                                All Supervisors 
+                            </ion-select-option>
+                            <ion-select-option v-for="supervisor in selectOptions.supervisors"
+                                               :key="supervisor"
+                                               :value="supervisor">{{ supervisor }}</ion-select-option>
                         </ion-select>
-                        <ion-select placeholder="">
-                        </ion-select>
-                        <ion-select placeholder="Agency">
+                        <ion-select v-model="skillSelect" placeholder="Skill">
+                            <ion-select-option value="">
+                                All Skills 
+                            </ion-select-option>
+                            <ion-select-option v-for="skill in selectOptions.skills"
+                                               :key="skill"
+                                               :value="skill">{{ skill }}</ion-select-option>
                         </ion-select>
                     </ion-row>
                 </ion-grid>
@@ -53,16 +87,18 @@
 <script lang="ts">
     import { mapActions, mapGetters } from "vuex"
     import { useRouter } from 'vue-router';
-    import { IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
+    import { IonSelectOption, IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
     import { personCircleOutline } from "ionicons/icons";
     import { useStore } from 'vuex';
     import { computed } from "@vue/reactivity";
+    import { ref } from 'vue';
     import * as JsSearch from 'js-search';
     import { tSParenthesizedType } from "@babel/types";
 
     export default {
         name: 'HomeVisitorDirectoryPage',
         components: {
+            IonSelectOption,
             IonGrid,
             IonSelect,
             IonRow,
@@ -83,11 +119,17 @@
 
             store.dispatch('visitors/fetchVisitors');
 
-            const pushIfNotExisting = (hayStack: string[], needleStack: string[]) => {
-                for (let needle in needleStack) {
+            const pushArrayValueIfNotExisting = (hayStack: string[], needleStack: string) => {
+                for (let needle of needleStack) {
                     if (! hayStack.includes(needle)) {
                         hayStack.push(needle);
                     }
+                }
+            }
+
+            const pushStringValueIfNotExisting = (hayStack: string[], needle: string) => {
+                if (! hayStack.includes(needle)) {
+                    hayStack.push(needle);
                 }
             }
 /*
@@ -101,27 +143,87 @@
                 search.addDocument(visitor);
             }
 */
+
+            let countySelect = ref('');
+            let agencySelect = ref('');
+            let supervisorSelect = ref('');
+            let certificationSelect = ref('');
+            let skillSelect = ref('');
+            let languageSelect = ref('');
+
+            const filterVisitors = () => {
+                let filteredVisitors = store.state.visitors.visitors;
+
+                filteredVisitors = arrayValueFilter(filteredVisitors, 'counties', countySelect.value);
+                filteredVisitors = arrayValueFilter(filteredVisitors, 'skills', skillSelect.value);
+                filteredVisitors = arrayValueFilter(filteredVisitors, 'certifications', certificationSelect.value);
+                filteredVisitors = arrayValueFilter(filteredVisitors, 'languages', languageSelect.value);
+
+                filteredVisitors = stringValueFilter(filteredVisitors, 'program', agencySelect.value);
+                filteredVisitors = stringValueFilter(filteredVisitors, 'supervisor', supervisorSelect.value);
+
+                return filteredVisitors;
+            }
+
+            const arrayValueFilter = (visitors: [], field: string, value: string) => {
+                if (!value) return visitors;
+
+                return visitors.filter((visitor: any) => {
+                    return visitor[field].includes(value);
+                });
+            }
+
+            const stringValueFilter = (visitors: [], field: string, value: string) => {
+                if (!value) return visitors;
+
+                return visitors.filter((visitor: any) => {
+                    console.log(visitor[field]+' = ' + value);
+                    return visitor[field] == value;
+                });
+            }
+
             return {
                 visitors: computed(() => {
-                    return store.state.visitors.visitors;
+                    return filterVisitors();
                 }),
+
                 selectOptions: computed(() => {
                     let selectOptions = {
                         counties: [],
                         languages: [],
+                        agencies: [],
+                        supervisors: [],
+                        skills: [],
+                        certifications: []
                     };
 
-                    let visitors:object[] = store.state.visitors.visitors;
+                    let visitors = store.state.visitors.visitors;
 
-                    for (let visitor in visitors) {
-                        // pushIfNotExisting(selectOptions.counties, visitor.counties)
+                    if (! visitors) return selectOptions;
+
+                    for (let visitor of visitors) {
+                        pushArrayValueIfNotExisting(selectOptions.counties, visitor.counties);
+                        pushArrayValueIfNotExisting(selectOptions.languages, visitor.languages);
+                        pushStringValueIfNotExisting(selectOptions.agencies, visitor.program);
+                        pushStringValueIfNotExisting(selectOptions.supervisors, visitor.supervisor);
+                        pushArrayValueIfNotExisting(selectOptions.skills, visitor.skills);
+                        pushArrayValueIfNotExisting(selectOptions.certifications, visitor.certifications);
                     }
 
                     return selectOptions;
                 }),
+
                 openVisitorProfile: (id: string) => {
                         router.push('/homevisitordirectory/' + id);
                 },
+
+                countySelect,
+                skillSelect,
+                languageSelect,
+                certificationSelect,
+                agencySelect,
+                supervisorSelect,
+
                 personCircleOutline
             }
         }

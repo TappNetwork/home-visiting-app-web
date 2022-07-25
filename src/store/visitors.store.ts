@@ -9,6 +9,13 @@ const state = {
     responseMessage: 0,
     responseErrors: [],
     visitors: null,
+    counties: null,
+    languages: null,
+    agencies: null,
+    certifications: null,
+    supervisor: null, 
+    skills: null,
+
 }
 
 const getters = {
