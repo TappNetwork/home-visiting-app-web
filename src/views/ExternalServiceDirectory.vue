@@ -38,7 +38,8 @@
     import { ref } from 'vue';
     import { IonInput, IonContent, IonList, IonItem, IonLabel, IonHeader, IonTitle, IonToolbar, IonPage } from '@ionic/vue'
     import { computed } from "@vue/reactivity";
-import { visitors } from "@/store/visitors.store";
+    import { visitors } from "@/store/visitors.store";
+    import FilterService from '@/services/filter.service'; 
 
     export default {
         name: 'ExternalServicesDirectoryPage',
@@ -74,7 +75,7 @@ import { visitors } from "@/store/visitors.store";
                     'contact_1'
                 ];
 
-                filteredServices = searchFilter(filteredServices, searchQuery.value);
+                filteredServices = FilterService.searchFilter(filteredServices, searchQuery.value, fields);
                 filteredServices = stringValueFilter(filteredServices, 'benchmark', benchmarkSelect.value);
                 filteredServices = stringValueFilter(filteredServices, 'construct', constructSelect.value);
                 filteredServices = arrayValueFilter(filteredServices, 'tags', tagSelect.value);
