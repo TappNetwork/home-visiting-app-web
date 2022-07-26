@@ -157,6 +157,10 @@
                     return generateSelectOptions();
                 }),
 
+                openServiceProfile: (id: string) => {
+                    router.push('/home-visitor-directory/' + id);
+                },
+
                 clearFilters,
 
                 searchQuery,

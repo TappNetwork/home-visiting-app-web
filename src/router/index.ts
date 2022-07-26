@@ -9,6 +9,7 @@ import ResourceCenterPage from '@/views/ResourceCenter.vue';
 import DashboardPage from '@/views/Dashboard.vue';
 import HomeVisitorProfilePage from '@/views/HomeVisitorProfile.vue';
 import ExternalServiceDirectoryPage from '@/views/ExternalServiceDirectory.vue';
+import ExternalServiceProfilePage from '@/views/ExternalServiceProfile.vue';
 import { store } from '@/store';
 
 const routes: Array<RouteRecordRaw> = [
@@ -63,6 +64,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: '/referrals',
     component: ExternalServiceDirectoryPage,
+    meta: {
+      public: false,
+      onlyWhenLoggedOut: false,
+    }
+  },
+  {
+    path: '/home-visitor-directory/:id',
+    component: ExternalServiceProfilePage,
     meta: {
       public: false,
       onlyWhenLoggedOut: false,
