@@ -65,6 +65,7 @@
                             <ion-label>Search</ion-label>
                             <ion-input v-model="searchQuery"
                                        placeholder="Visitor Name"></ion-input>
+                            <ion-button @click="clearFilters">Clear Filters</ion-button>
                         </ion-item>
                     </ion-row>
                 </ion-grid>
@@ -94,7 +95,7 @@
 <script lang="ts">
     import { mapActions, mapGetters } from "vuex"
     import { useRouter } from 'vue-router';
-    import { IonInput, IonSelectOption, IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
+    import { IonButton, IonInput, IonSelectOption, IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
     import { personCircleOutline } from "ionicons/icons";
     import { useStore } from 'vuex';
     import { computed } from "@vue/reactivity";
@@ -105,6 +106,7 @@
     export default {
         name: 'HomeVisitorDirectoryPage',
         components: {
+            IonButton,
             IonInput,
             IonSelectOption,
             IonGrid,
@@ -189,35 +191,55 @@
                 });
             }
 
+            const clearFilters = () => {
+                countySelect.value = '';
+                agencySelect.value = '';
+                supervisorSelect.value = '';
+                certificationSelect.value = '';
+                skillSelect.value = '';
+                languageSelect.value = '';
+                searchQuery.value = '';
+
+                filterVisitors();
+
+                console.log('clearfilters');
+            }
+
+            const generateSelectOptions = () => {
+                let selectOptions = {
+                    counties: [],
+                    languages: [],
+                    agencies: [],
+                    supervisors: [],
+                    skills: [],
+                    certifications: []
+                };
+
+                let visitors = store.state.visitors.visitors;
+
+                if (! visitors) return selectOptions;
+
+                for (let visitor of visitors) {
+                    pushArrayValueIfNotExisting(selectOptions.counties, visitor.counties);
+                    pushArrayValueIfNotExisting(selectOptions.languages, visitor.languages);
+                    pushStringValueIfNotExisting(selectOptions.agencies, visitor.program);
+                    pushStringValueIfNotExisting(selectOptions.supervisors, visitor.supervisor);
+                    pushArrayValueIfNotExisting(selectOptions.skills, visitor.skills);
+                    pushArrayValueIfNotExisting(selectOptions.certifications, visitor.certifications);
+                }
+
+                return selectOptions;
+            }
+
             return {
                 visitors: computed(() => {
                     return filterVisitors();
                 }),
 
+                clearFilters,
+
                 selectOptions: computed(() => {
-                    let selectOptions = {
-                        counties: [],
-                        languages: [],
-                        agencies: [],
-                        supervisors: [],
-                        skills: [],
-                        certifications: []
-                    };
-
-                    let visitors = store.state.visitors.visitors;
-
-                    if (! visitors) return selectOptions;
-
-                    for (let visitor of visitors) {
-                        pushArrayValueIfNotExisting(selectOptions.counties, visitor.counties);
-                        pushArrayValueIfNotExisting(selectOptions.languages, visitor.languages);
-                        pushStringValueIfNotExisting(selectOptions.agencies, visitor.program);
-                        pushStringValueIfNotExisting(selectOptions.supervisors, visitor.supervisor);
-                        pushArrayValueIfNotExisting(selectOptions.skills, visitor.skills);
-                        pushArrayValueIfNotExisting(selectOptions.certifications, visitor.certifications);
-                    }
-
-                    return selectOptions;
+                    return generateSelectOptions();
                 }),
 
                 openVisitorProfile: (id: string) => {
