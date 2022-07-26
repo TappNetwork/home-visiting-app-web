@@ -62,7 +62,7 @@
                     </ion-row>
                     <ion-row>
                         <ion-item>
-                            <ion-label>Search</ion-label>
+                            <ion-label>Search:</ion-label>
                             <ion-input v-model="searchQuery"
                                        placeholder="Visitor Name"></ion-input>
                             <ion-button @click="clearFilters">Clear Filters</ion-button>
@@ -93,11 +93,10 @@
 </template>
 
 <script lang="ts">
-    import { mapActions, mapGetters } from "vuex"
+    import { mapActions, mapGetters, useStore } from "vuex"
     import { useRouter } from 'vue-router';
     import { IonButton, IonInput, IonSelectOption, IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
     import { personCircleOutline } from "ionicons/icons";
-    import { useStore } from 'vuex';
     import { computed } from "@vue/reactivity";
     import { ref } from 'vue';
     import * as JsSearch from 'js-search';

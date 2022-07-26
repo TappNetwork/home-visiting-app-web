@@ -19,7 +19,9 @@
                 slot="start"
                 :icon="exitOutline"
                 :ios="exitOutline"
-                :md="exitOutline">
+                :md="exitOutline"
+                lines="none"
+                detail="false">
               </ion-icon>
               <ion-label>Sign Out</ion-label>
             </ion-item>
