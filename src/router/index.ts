@@ -28,7 +28,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/homevisitordirectory',
+    path: '/home-visitor-directory',
     component: HomeVisitorDirectoryPage,
     meta: {
       public: false,
@@ -36,7 +36,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/homevisitordirectory/:id',
+    path: '/home-visitor-directory/:id',
     component: HomeVisitorProfilePage,
     meta: {
       public: false,
@@ -52,7 +52,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/resourcecenter',
+    path: '/resource-center',
     component: ResourceCenterPage,
     meta: {
       public: false,
@@ -76,7 +76,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/signin',
+    path: '/sign-in',
     component: SignInPage,
     meta: {
       public: true,
@@ -111,7 +111,7 @@ router.beforeEach((to, from, next) => {
     .catch(() => {
       if (!isPublic) {
         console.log('logged Out')
-        return next('/signin');
+        return next('/sign-in');
       }
 
       console.log('logged Out');

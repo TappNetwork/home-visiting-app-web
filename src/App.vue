@@ -78,7 +78,7 @@ export default defineComponent({
       },
       {
         title: 'Home Visitor Directory',
-        url: '/homevisitordirectory',
+        url: '/home-visitor-directory',
         iosIcon: paperPlaneOutline,
         mdIcon: paperPlaneSharp
       },
@@ -90,7 +90,7 @@ export default defineComponent({
       },
       {
         title: 'Resource Center',
-        url: '/resourcecenter',
+        url: '/resource-center',
         iosIcon: archiveOutline,
         mdIcon: archiveSharp
       },

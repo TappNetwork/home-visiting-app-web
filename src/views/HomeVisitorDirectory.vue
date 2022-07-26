@@ -243,7 +243,7 @@
                 }),
 
                 openVisitorProfile: (id: string) => {
-                        router.push('/homevisitordirectory/' + id);
+                        router.push('/home-visitor-directory/' + id);
                 },
 
                 countySelect,
