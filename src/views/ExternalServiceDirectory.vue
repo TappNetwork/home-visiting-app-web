@@ -3,17 +3,50 @@
         <ion-header>
             <ion-toolbar>
                 <ion-title>
-                    Referrals Index 
+                    External Services Index 
                 </ion-title>
             </ion-toolbar>
         </ion-header>
         <ion-content>
             <ion-list>
-                <ion-item>
-                    <ion-label>Search</ion-label>
-                    <ion-input v-model="searchQuery"
-                                placeholder="Search Referrals"></ion-input>
-                </ion-item>
+                    <ion-grid>
+                        <ion-row>
+                            <ion-select v-model="benchmarkSelect" placeholder="Benchmark">
+                                <ion-select-option value="">
+                                    All Benchmarks
+                                </ion-select-option>
+                                <ion-select-option v-for="benchmark in selectOptions.benchmarks"
+                                                   :key="benchmark"
+                                                   :value="benchmark">{{ benchmark }}</ion-select-option>
+                            </ion-select>
+                            <ion-select v-model="constructSelect" placeholder="Construct">
+                                <ion-select-option v-for="construct in selectOptions.constructs"
+                                                   :key="construct"
+                                                   :value="construct">{{ construct }}</ion-select-option>
+                                <ion-select-option value="">
+                                    All Constructs
+                                </ion-select-option>
+                            </ion-select>
+                            <ion-select v-model="tagSelect" placeholder="Tag">
+                                <ion-select-option value="">
+                                    All Tags
+                                </ion-select-option>
+                                <ion-select-option v-for="tag in selectOptions.tags"
+                                                   :key="tag"
+                                                   :value="tag">{{ tag }}</ion-select-option>
+                            </ion-select>
+                        </ion-row>
+                        <ion-row>
+                            <ion-item>
+                                <ion-label>Search</ion-label>
+                                <ion-input v-model="searchQuery"
+                                            placeholder="Search Services"></ion-input>
+                                <ion-button @click="clearFilters">
+                                    Clear Filters
+                                </ion-button>
+                            </ion-item>
+                        </ion-row>
+                    </ion-grid>
                 <ion-item v-for="service in services" :key="service.id" button @click="openServiceProfile(service.id)">
                     <ion-label>
                         <h2>
@@ -36,7 +69,7 @@
     import { mapActions, mapGetters, useStore } from "vuex"
     import { useRouter } from 'vue-router';
     import { ref } from 'vue';
-    import { IonInput, IonContent, IonList, IonItem, IonLabel, IonHeader, IonTitle, IonToolbar, IonPage } from '@ionic/vue'
+    import { IonButton, IonSelect, IonSelectOption, IonGrid, IonRow, IonInput, IonContent, IonList, IonItem, IonLabel, IonHeader, IonTitle, IonToolbar, IonPage } from '@ionic/vue'
     import { computed } from "@vue/reactivity";
     import { visitors } from "@/store/visitors.store";
     import FilterService from '@/services/filter.service'; 
@@ -44,6 +77,11 @@
     export default {
         name: 'ExternalServicesDirectoryPage',
         components: {
+            IonButton,
+            IonSelect,
+            IonSelectOption,
+            IonGrid,
+            IonRow,
             IonInput,
             IonContent,
             IonList,
@@ -83,11 +121,48 @@
                 return filteredServices;
             }
 
+            const generateSelectOptions = () => {
+                let selectOptions = {
+                    benchmarks: [],
+                    constructs: [],
+                    tags: [],
+                }
+
+                let services = store.state.externalServices.externalServices;
+
+                if (!services) return selectOptions;
+
+                for (const service of services) {
+                    FilterService.pushStringValueIfNotExisting(selectOptions.benchmarks, service.benchmark);
+                    FilterService.pushStringValueIfNotExisting(selectOptions.constructs, service.construct);
+                    FilterService.pushArrayValueIfNotExisting(selectOptions.tags, service.tags);
+                }
+
+                return selectOptions;
+            }
+
+            const clearFilters = () => {
+                searchQuery.value = '';
+                benchmarkSelect.value = '';
+                constructSelect.value = '';
+                tagSelect.value = '';
+            }
+
             return {
                 services: computed(() => {
                     return filterServices();
                 }),
-                searchQuery
+
+                selectOptions: computed(() => {
+                    return generateSelectOptions();
+                }),
+
+                clearFilters,
+
+                searchQuery,
+                benchmarkSelect,
+                constructSelect,
+                tagSelect
             }
         }
     }
