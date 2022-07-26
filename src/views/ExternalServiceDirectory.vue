@@ -38,6 +38,7 @@
     import { ref } from 'vue';
     import { IonInput, IonContent, IonList, IonItem, IonLabel, IonHeader, IonTitle, IonToolbar, IonPage } from '@ionic/vue'
     import { computed } from "@vue/reactivity";
+import { visitors } from "@/store/visitors.store";
 
     export default {
         name: 'ExternalServicesDirectoryPage',
@@ -60,11 +61,12 @@
             store.dispatch('externalServices/fetchExternalServices');
 
             let searchQuery = ref('');
+            let benchmarkSelect = ref('');
+            let constructSelect = ref('');
+            let tagSelect = ref('');
 
             const filterServices = () => {
                 let filteredServices = store.state.externalServices.externalServices;
-
-                if (!searchQuery.value) return filteredServices;
 
                 const fields = [
                     'name',
@@ -72,17 +74,48 @@
                     'contact_1'
                 ];
 
-                filteredServices = filteredServices.filter((service: any) => {
+                filteredServices = searchFilter(filteredServices, searchQuery.value);
+                filteredServices = stringValueFilter(filteredServices, 'benchmark', benchmarkSelect.value);
+                filteredServices = stringValueFilter(filteredServices, 'construct', constructSelect.value);
+                filteredServices = arrayValueFilter(filteredServices, 'tags', tagSelect.value);
+
+                return filteredServices;
+            }
+
+            const searchFilter = (services: [], value: string) => {
+                if (!value) return services;
+
+                const fields = [
+                    'name',
+                    'description',
+                    'contact_1'
+                ];
+
+                return services.filter((service: any) => {
                     for (const field of fields) {
-                        if (service[field]?.toLowerCase().includes(searchQuery.value)) {
+                        if (service[field]?.toLowerCase().includes(value)) {
                             return true;
                         }
                     }
 
                     return false;
                 });
+            }
 
-                return filteredServices;
+            const arrayValueFilter = (services: [], field: string, value: string) => {
+                if (!value) return services;
+
+                return services.filter((service: any) => {
+                    return service[field].includes(value);
+                });
+            }
+
+            const stringValueFilter = (services: [], field: string, value: string) => {
+                if (!value) return services;
+
+                return services.filter((service: any) => {
+                    return service[field] == value;
+                });
             }
 
             const pushArrayValueIfNotExisting = (hayStack: string[], needleStack: string) => {
