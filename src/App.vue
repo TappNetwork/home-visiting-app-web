@@ -85,7 +85,7 @@ export default defineComponent({
         mdIcon: paperPlaneSharp
       },
       {
-        title: 'Referrals',
+        title: 'External Services',
         url: '/referrals',
         iosIcon: heartOutline,
         mdIcon: heartSharp
