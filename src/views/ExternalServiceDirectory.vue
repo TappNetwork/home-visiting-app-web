@@ -47,15 +47,26 @@
                             </ion-item>
                         </ion-row>
                     </ion-grid>
-                <ion-item v-for="service in services" :key="service.id" button @click="openServiceProfile(service.id)">
-                    <ion-label>
-                        <h2>
+                <ion-item v-for="service in services" 
+                          :key="service.id" 
+                          button 
+                          @click="openServiceProfile(service.id)">
+                    <ion-label class="ion-text-wrap">
+                        <h2 class="ion-text-wrap">
                             {{ service.name }}
                         </h2>
                         <p> 
                             Contact: {{ service.contact_1 }} 
                         </p>
                     </ion-label>
+                    <ion-label slot="end">
+                        <div>
+                            <ion-button v-for="tag of service.tags" :key="tag">
+                                {{ tag }}
+                            </ion-button>
+                        </div>
+                    </ion-label>
+
                 </ion-item>
             </ion-list>
         </ion-content>
