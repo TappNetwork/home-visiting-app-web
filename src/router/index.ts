@@ -70,7 +70,7 @@ const routes: Array<RouteRecordRaw> = [
     }
   },
   {
-    path: '/home-visitor-directory/:id',
+    path: '/referrals/:id',
     component: ExternalServiceProfilePage,
     meta: {
       public: false,

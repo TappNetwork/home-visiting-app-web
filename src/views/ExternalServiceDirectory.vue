@@ -158,7 +158,7 @@
                 }),
 
                 openServiceProfile: (id: string) => {
-                    router.push('/home-visitor-directory/' + id);
+                    router.push('/referrals/' + id);
                 },
 
                 clearFilters,
