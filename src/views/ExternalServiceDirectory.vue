@@ -56,9 +56,6 @@
                             Contact: {{ service.contact_1 }} 
                         </p>
                     </ion-label>
-                    <p>
-                        {{ service.description }}
-                    </p>
                 </ion-item>
             </ion-list>
         </ion-content>
