@@ -1,19 +1,16 @@
-import router from "@/router";
-import { AxiosRequestConfig } from "axios";
-import ApiService from "@/services/api.service";
-import { ssrContextKey } from "vue";
+import ApiService from '@/services/api.service';
 
 const state = {
     loaded: false,
     responseCode: 0,
     responseMessage: 0,
     responseErrors: [],
-    visitors: null
+    externalService: null
 }
 
 const getters = {
-    visitors: (state: { visitors: any }) => {
-        return state.visitors;
+    externalServices: (state: { externalServices: any }) => {
+        return state.externalServices;
     },
 
     responseCode: (state: { responseCode: any }) => {
@@ -30,8 +27,8 @@ const getters = {
 }
 
 const mutations = {
-    setVisitors(state: { visitors: any }, visitors: any) {
-        state.visitors = visitors;
+    setExternalServices(state: { externalServices: any }, externalServices: any) {
+        state.externalServices = externalServices;
     },
 
     setLoaded() {
@@ -40,16 +37,16 @@ const mutations = {
 }
 
 const actions = {
-    async fetchVisitors(context: any) {
+    async fetchExternalServices(context: any) {
         return new Promise((resolve, reject) => {
-            ApiService.get('api/visitors').then(function(response) {
+            ApiService.get('api/external-services').then(function(response) {
                 if (response && response.data && response.data.data) {
-                    const visitors = response.data.data;
+                    const externalServices = response.data.data;
 
-                    context.commit("setVisitors", visitors);
+                    context.commit("setExternalServices", externalServices);
                     context.commit("setLoaded");
 
-                    resolve(visitors);
+                    resolve(externalServices);
                 }
             })
                 .catch(error => {
@@ -59,7 +56,7 @@ const actions = {
     },
 }
 
-export const visitors = {
+export const externalServices = {
     namespaced: true, 
     state,
     getters,

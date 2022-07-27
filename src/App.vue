@@ -19,7 +19,9 @@
                 slot="start"
                 :icon="exitOutline"
                 :ios="exitOutline"
-                :md="exitOutline">
+                :md="exitOutline"
+                lines="none"
+                detail="false">
               </ion-icon>
               <ion-label>Sign Out</ion-label>
             </ion-item>
@@ -83,7 +85,7 @@ export default defineComponent({
         mdIcon: paperPlaneSharp
       },
       {
-        title: 'Referrals',
+        title: 'External Services',
         url: '/referrals',
         iosIcon: heartOutline,
         mdIcon: heartSharp

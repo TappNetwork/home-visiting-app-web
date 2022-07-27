@@ -62,7 +62,7 @@
                     </ion-row>
                     <ion-row>
                         <ion-item>
-                            <ion-label>Search</ion-label>
+                            <ion-label>Search:</ion-label>
                             <ion-input v-model="searchQuery"
                                        placeholder="Visitor Name"></ion-input>
                             <ion-button @click="clearFilters">Clear Filters</ion-button>
@@ -93,15 +93,15 @@
 </template>
 
 <script lang="ts">
-    import { mapActions, mapGetters } from "vuex"
+    import { mapActions, mapGetters, useStore } from "vuex"
     import { useRouter } from 'vue-router';
     import { IonButton, IonInput, IonSelectOption, IonGrid, IonSelect, IonRow, IonAvatar, IonLabel, IonPage, IonHeader, IonContent, IonList, IonToolbar, IonTitle, IonItem } from '@ionic/vue';
     import { personCircleOutline } from "ionicons/icons";
-    import { useStore } from 'vuex';
     import { computed } from "@vue/reactivity";
     import { ref } from 'vue';
     import * as JsSearch from 'js-search';
     import { tSParenthesizedType } from "@babel/types";
+    import FilterService from "@/services/filter.service";
 
     export default {
         name: 'HomeVisitorDirectoryPage',
@@ -129,20 +129,6 @@
 
             store.dispatch('visitors/fetchVisitors');
 
-            const pushArrayValueIfNotExisting = (hayStack: string[], needleStack: string) => {
-                for (let needle of needleStack) {
-                    if (! hayStack.includes(needle)) {
-                        hayStack.push(needle);
-                    }
-                }
-            }
-
-            const pushStringValueIfNotExisting = (hayStack: string[], needle: string) => {
-                if (! hayStack.includes(needle)) {
-                    hayStack.push(needle);
-                }
-            }
-
             let countySelect = ref('');
             let agencySelect = ref('');
             let supervisorSelect = ref('');
@@ -154,41 +140,17 @@
             const filterVisitors = () => {
                 let filteredVisitors = store.state.visitors.visitors;
 
-                filteredVisitors = arrayValueFilter(filteredVisitors, 'counties', countySelect.value);
-                filteredVisitors = arrayValueFilter(filteredVisitors, 'skills', skillSelect.value);
-                filteredVisitors = arrayValueFilter(filteredVisitors, 'certifications', certificationSelect.value);
-                filteredVisitors = arrayValueFilter(filteredVisitors, 'languages', languageSelect.value);
+                filteredVisitors = FilterService.arrayValueFilter(filteredVisitors, 'counties', countySelect.value);
+                filteredVisitors = FilterService.arrayValueFilter(filteredVisitors, 'skills', skillSelect.value);
+                filteredVisitors = FilterService.arrayValueFilter(filteredVisitors, 'certifications', certificationSelect.value);
+                filteredVisitors = FilterService.arrayValueFilter(filteredVisitors, 'languages', languageSelect.value);
 
-                filteredVisitors = stringValueFilter(filteredVisitors, 'program', agencySelect.value);
-                filteredVisitors = stringValueFilter(filteredVisitors, 'supervisor', supervisorSelect.value);
+                filteredVisitors = FilterService.stringValueFilter(filteredVisitors, 'program', agencySelect.value);
+                filteredVisitors = FilterService.stringValueFilter(filteredVisitors, 'supervisor', supervisorSelect.value);
 
-                filteredVisitors =  nameSearchFilter(filteredVisitors, searchQuery.value);
+                filteredVisitors =  FilterService.searchFilter(filteredVisitors, searchQuery.value, ['name']);
 
                 return filteredVisitors;
-            }
-
-            const arrayValueFilter = (visitors: [], field: string, value: string) => {
-                if (!value) return visitors;
-
-                return visitors.filter((visitor: any) => {
-                    return visitor[field].includes(value);
-                });
-            }
-
-            const stringValueFilter = (visitors: [], field: string, value: string) => {
-                if (!value) return visitors;
-
-                return visitors.filter((visitor: any) => {
-                    return visitor[field] == value;
-                });
-            }
-
-            const nameSearchFilter = (visitors: [], value: string) => {
-                if (!value) return visitors;
-
-                return visitors.filter((visitor: any) => {
-                    return visitor.name.toLowerCase().includes(value.toLowerCase());
-                });
             }
 
             const clearFilters = () => {
@@ -220,12 +182,12 @@
                 if (! visitors) return selectOptions;
 
                 for (let visitor of visitors) {
-                    pushArrayValueIfNotExisting(selectOptions.counties, visitor.counties);
-                    pushArrayValueIfNotExisting(selectOptions.languages, visitor.languages);
-                    pushStringValueIfNotExisting(selectOptions.agencies, visitor.program);
-                    pushStringValueIfNotExisting(selectOptions.supervisors, visitor.supervisor);
-                    pushArrayValueIfNotExisting(selectOptions.skills, visitor.skills);
-                    pushArrayValueIfNotExisting(selectOptions.certifications, visitor.certifications);
+                    FilterService.pushArrayValueIfNotExisting(selectOptions.counties, visitor.counties);
+                    FilterService.pushArrayValueIfNotExisting(selectOptions.languages, visitor.languages);
+                    FilterService.pushStringValueIfNotExisting(selectOptions.agencies, visitor.program);
+                    FilterService.pushStringValueIfNotExisting(selectOptions.supervisors, visitor.supervisor);
+                    FilterService.pushArrayValueIfNotExisting(selectOptions.skills, visitor.skills);
+                    FilterService.pushArrayValueIfNotExisting(selectOptions.certifications, visitor.certifications);
                 }
 
                 return selectOptions;
