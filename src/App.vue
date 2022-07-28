@@ -36,7 +36,7 @@
 import { IonApp, IonContent, IonIcon, IonItem, IonLabel, IonList, IonListHeader, IonMenu, IonMenuToggle, IonNote, IonRouterOutlet, IonSplitPane } from '@ionic/vue';
 import { defineComponent, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp, accessibility, exitOutline } from 'ionicons/icons';
+import { mailOpenOutline, archiveOutline, archiveSharp, bookmarkOutline, bookmarkSharp, heartOutline, heartSharp, mailOutline, mailSharp, paperPlaneOutline, paperPlaneSharp, trashOutline, trashSharp, warningOutline, warningSharp, accessibility, exitOutline, mail } from 'ionicons/icons';
 import { useStore } from "vuex";
 import { store } from '@/store'
 
@@ -71,6 +71,12 @@ export default defineComponent({
         mdIcon: accessibility
       },
       {
+        title: 'Internal Referrals',
+        url: '/internal-referrals',
+        iosIcon: mailOpenOutline,
+        mdIcon: mailOpenOutline,
+      },
+      {
         title: 'Forms',
         url: '/forms',
         iosIcon: mailOutline,
@@ -83,7 +89,7 @@ export default defineComponent({
         mdIcon: paperPlaneSharp
       },
       {
-        title: 'Referrals',
+        title: 'External Referrals',
         url: '/referrals',
         iosIcon: heartOutline,
         mdIcon: heartSharp

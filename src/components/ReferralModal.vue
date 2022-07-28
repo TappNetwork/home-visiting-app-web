@@ -37,10 +37,9 @@
     IonTextarea,
     modalController,
     } from '@ionic/vue';
-    import { defineComponent, computed, ref } from 'vue';
+    import { computed, ref } from 'vue';
     import { useRoute } from 'vue-router';
     import { store } from '@/store';
-    import { visitors } from '@/store/visitors.store';
 
     export default {
         name: 'ReferralModal',
