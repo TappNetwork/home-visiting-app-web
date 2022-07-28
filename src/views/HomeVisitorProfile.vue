@@ -17,6 +17,11 @@
                         <p>{{ visitor.name }}</p>
                         <p>Program: {{ visitor.program }}</p>
                         <p>Supervisor: {{ visitor.supervisor }}</p>
+                    <!-- Trigger Modal -->
+                    <ion-button @click="openModal">
+                        Make Referral
+                    </ion-button>
+                    <!-- End Trigger Modal -->
                     </ion-col>
                     <ion-col size="12" size-lg="4">
                         <h1>Bio</h1>
@@ -120,12 +125,16 @@
 <script lang="ts">
     import { store } from '@/store';
     import { useRoute } from 'vue-router';
-    import { IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonRow, IonCol, IonGrid, IonContent, IonPage, IonHeader, IonToolbar, IonTitle, } from '@ionic/vue';
+    import { modalController, IonModal, IonButtons, IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonRow, IonCol, IonGrid, IonContent, IonPage, IonHeader, IonToolbar, IonTitle, } from '@ionic/vue';
     import { computed } from '@vue/reactivity';
+    import { ref } from 'vue';
+    import ReferralModal from '@/components/ReferralModal.vue';
+    import ApiService from "@/services/api.service";
 
     export default {
         name: 'HomeVisitorProfilePage',
         components: {
+            IonButton,
             IonCard,
             IonCardHeader,
             IonCardSubtitle,
@@ -143,11 +152,30 @@
         setup() {
             const route = useRoute();
 
+            const openModal = async () => {
+                const modal = await modalController.create({
+                    component: ReferralModal,
+                });
+
+                modal.present();
+
+                const { data, role } = await modal.onWillDismiss();
+
+                if (role === 'confirm') {
+                    console.log('confrim');
+                    ApiService.post('api/internal-referrals', data);
+                } else {
+                    console.log('cancel');
+                }
+            }
+            
             return {
                 visitor: computed(() => {
                     const visitors = store.state.visitors.visitors;
                     return visitors.find((x: any) => (x.id == route.params.id))
                 }),
+
+                openModal,
             }
         }
 
