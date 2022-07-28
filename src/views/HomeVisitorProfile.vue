@@ -127,7 +127,6 @@
     import { useRoute } from 'vue-router';
     import { modalController, IonModal, IonButtons, IonButton, IonCard, IonCardHeader, IonCardSubtitle, IonCardTitle, IonCardContent, IonRow, IonCol, IonGrid, IonContent, IonPage, IonHeader, IonToolbar, IonTitle, } from '@ionic/vue';
     import { computed } from '@vue/reactivity';
-    import { ref } from 'vue';
     import ReferralModal from '@/components/ReferralModal.vue';
     import ApiService from "@/services/api.service";
 
@@ -162,11 +161,8 @@
                 const { data, role } = await modal.onWillDismiss();
 
                 if (role === 'confirm') {
-                    console.log('confrim');
                     ApiService.post('api/internal-referrals', data);
-                } else {
-                    console.log('cancel');
-                }
+                } 
             }
             
             return {
@@ -175,7 +171,7 @@
                     return visitors.find((x: any) => (x.id == route.params.id))
                 }),
 
-                openModal,
+                openModal
             }
         }
 

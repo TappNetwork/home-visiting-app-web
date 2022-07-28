@@ -1,28 +1,28 @@
 <template>
-    <ion-header>
-        <ion-toolbar>
-            <ion-title class="ion-text-wrap"> 
-                Refer a patient to {{ visitor.name }} 
-            </ion-title>
-        </ion-toolbar>
-    </ion-header>
-    <ion-content>
-        <ion-item>
-            <ion-label position="stacked">
-                Message
-            </ion-label>
-            <ion-textarea v-model="message" placeholder="Your Message (Required)">
-            </ion-textarea>
-        </ion-item>
-        <ion-item>
-            <ion-button @click="cancel()">
-                Cancel
-            </ion-button>
-            <ion-button :strong="true" @click="confirm()">
-                Confirm  
-            </ion-button>
-        </ion-item>
-    </ion-content>
+        <ion-header>
+            <ion-toolbar>
+                <ion-title class="ion-text-wrap">
+                    Refer a patient to {{ visitor.name }}
+                </ion-title>
+            </ion-toolbar>
+        </ion-header>
+        <ion-content>
+            <ion-item>
+                <ion-label position="stacked">
+                    Message
+                </ion-label>
+                <ion-textarea v-model="message" placeholder="Your Message (Required)">
+                </ion-textarea>
+            </ion-item>
+            <ion-item>
+                <ion-button @click="cancel()">
+                    Cancel
+                </ion-button>
+                <ion-button :strong="true" @click="confirm()">
+                    Confirm
+                </ion-button>
+            </ion-item>
+        </ion-content>
 </template>
 
 <script lang="ts">
